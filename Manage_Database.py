@@ -267,7 +267,7 @@ def select_one_from_table(_table):
     print("Existing ID's: ")
     for item in results:
         print("| {0} - {1}" .format(item[0],item[1]))
-        id_check.append(item[0])
+        id_check.append(str(item[0]))
         name_check.append(item[1])
     valid = False
     while not valid:
@@ -393,7 +393,7 @@ def select_with_filter_from_table(_table):
             cursor.execute("select {0} from {1}".format(_filter,_table))
             results = cursor.fetchall()
 
-        print("Existing Values: ")
+        print("Existing IDs: ")
         filter_value_check = []
         existing_values_printed = []
         index = 0
