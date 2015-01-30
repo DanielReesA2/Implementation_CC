@@ -63,9 +63,7 @@ class TaskManagerMainGUI(QMainWindow):
         self.label1 = QLabel("""Details:""")
         self.test = QPushButton("""TEST""")
 
-        #treeview functions
-        self.
-        self.main_tree_view.setHeader()        
+          
         
         #define layout
         self.main_layout = QGridLayout()
