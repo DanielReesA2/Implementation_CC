@@ -200,30 +200,42 @@ def select_statement(_table):
     if user_input == 1:
         if _table == "Company":
             select_all_from_company()
+            input("")
         elif _table == "Client":
             select_all_from_client()
+            input("")
         elif _table == "Project":
             select_all_from_project()
+            input("")
         elif _table == "Task":
             select_all_from_task()
+            input("")
         elif _table == "TaskManager":
             select_all_from_taskmanager()
+            input("")
         elif _table == "TechnicalArea":
             select_all_from_technicalarea()
+            input("")
     elif user_input == 2:
         id_not_name,id_to_get = display_existing(_table)
         if _table == "Company":
             select_one_from_company(id_not_name,id_to_get)
+            input("")
         elif _table == "Client":
             select_one_from_client(id_not_name,id_to_get)
+            input("")
         elif _table == "Project":
             select_one_from_project(id_not_name,id_to_get)
+            input("")
         elif _table == "Task":
             select_one_from_task(id_not_name,id_to_get)
+            input("")
         elif _table == "TaskManager":
             select_one_from_taskmanager(id_not_name,id_to_get)
+            input("")
         elif _table == "TechnicalArea":
             select_one_from_technicalarea(id_not_name,id_to_get)
+            input("")
 
     elif user_input == 3:
         select_with_filter_from_table(_table)
@@ -257,8 +269,6 @@ def select_all_from_company():
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
 
-    input("")
-
 def select_all_from_client():
     print("=====================================")
     print()
@@ -291,8 +301,6 @@ on a.CompanyID= b.CompanyID""")
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
 
-    input("")
-
 def select_all_from_project():
     print("=====================================")
     print()
@@ -324,8 +332,6 @@ on a.ClientID = b.ClientID""")
             except:
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
-
-    input("")
 
 def select_all_from_task():
     print("=====================================")
@@ -363,8 +369,6 @@ on a.ProjectID = d.ProjectID""")
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
 
-    input("")
-
 def select_all_from_taskmanager():
     print("=====================================")
     print()
@@ -394,8 +398,6 @@ def select_all_from_taskmanager():
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
 
-    input("")
-
 def select_all_from_technicalarea():
     print("=====================================")
     print()
@@ -424,8 +426,6 @@ def select_all_from_technicalarea():
             except:
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
-
-    input("")
  
 def display_existing(_table):
     id_check = []
@@ -496,7 +496,6 @@ def select_one_from_company(id_not_name,id_to_get):
             except:
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
-    input("")
 
 def select_one_from_client(id_not_name,id_to_get):
     print("=====================================")
@@ -547,7 +546,6 @@ where ClientName = ?""",(id_to_get,))
             except:
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
-    input("")
 
 def select_one_from_project(id_not_name,id_to_get):
     print("=====================================")
@@ -598,7 +596,6 @@ where ProjectName = ?""",(id_to_get,))
             except:
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
-    input("")
 
 def select_one_from_task(id_not_name,id_to_get):
     print("=====================================")
@@ -657,7 +654,6 @@ where TaskName = ?""",(id_to_get,))
             except:
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
-    input("")
 
 def select_one_from_taskmanager(id_not_name,id_to_get):
     print("=====================================")
@@ -700,7 +696,6 @@ def select_one_from_taskmanager(id_not_name,id_to_get):
             except:
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
-    input("")
 
 def select_one_from_technicalarea(id_not_name,id_to_get):
     print("=====================================")
@@ -743,9 +738,6 @@ def select_one_from_technicalarea(id_not_name,id_to_get):
             except:
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
-    input("")
-    
-
 
 def select_with_filter_from_table(_table):
     with sqlite3.connect("Task_Manager_Database.db") as db:
@@ -774,7 +766,7 @@ def select_with_filter_from_table(_table):
             print("Choice not valid. ")
 
     _filter = _filters[choice-1]
-       
+
     valid = False
     while not valid:
         
@@ -804,21 +796,37 @@ def select_with_filter_from_table(_table):
             valid = True
     print("=====================================")
     print()
+
+    if _table == "Company":
+        select_all_from_company_filter(_filter,_filter_value)
+        input("")
+    elif _table == "Client":
+        select_all_from_client_filter(_filter,_filter_value)
+        input("")
+    elif _table == "Project":
+        select_all_from_project_filter(_filter,_filter_value)
+        input("")
+    elif _table == "Task":
+        select_all_from_task_filter(_filter,_filter_value)
+        input("")
+    elif _table == "TaskManager":
+        select_all_from_taskmanager_filter(_filter,_filter_value)
+        input("")
+    elif _table == "TechnicalArea":
+        select_all_from_technicalarea_filter(_filter,_filter_value)
+        input("")
+
+def select_all_from_company_filter(_filter,_filter_value):
+    print("=====================================")
+    print()
     
     with sqlite3.connect("Task_Manager_Database.db") as db:
         cursor = db.cursor()
-        cursor.execute("pragma table_info({0})".format(_table))
+        cursor.execute("select * from Company where {0} = ? order by {0} asc".format(_filter),(_filter_value,))
         results = cursor.fetchall()
 
-    foreign_key_columns = []
-    
     for item in results:
         print("| {0:<22} ".format(item[1]),end='')
-        check = item[1]
-        if check[-2:] == "ID" and check != ("{0}ID".format(_table)):
-            foreign_key_columns.append(item[1])
-        else:
-            foreign_key_columns.append("-")
     print("|")
     for item in results:
         print("|------------------------",end='')
@@ -826,30 +834,179 @@ def select_with_filter_from_table(_table):
 
     with sqlite3.connect("Task_Manager_Database.db") as db:
         cursor = db.cursor()
-        cursor.execute("select * from {0} where {1} = ? order by {1} asc".format(_table,_filter),(_filter_value,))
+        cursor.execute("""select {0} from Company""".format(_filter))
         results = cursor.fetchall()
 
     for item in results:
-        index = 0
         for item2 in item:
             try:
-                if foreign_key_columns[index] != "-":
-                    temp_table = foreign_key_columns[index]
-                    temp_table = temp_table[:-2]
-                    with sqlite3.connect("Task_Manager_Database.db") as db:
-                        cursor = db.cursor()
-                        cursor.execute("select * from {0} where {0}ID = ?".format(temp_table,item),(item2,))
-                        result = cursor.fetchone()
-                    print("| {0:<22} ".format(result[1]),end='')
-                else:
-                    print("| {0:<22} ".format(item[index]),end='')
-                index = index + 1
+                print("| {0:<22} ".format(item2),end='')
             except:
                 print("| {0:^22} ".format("NULL - please update"),end='')
-                index = index + 1
+        print("|")
+        
+def select_all_from_client_filter(_filter,_filter_value):
+    print("=====================================")
+    print()
+    
+    with sqlite3.connect("Task_Manager_Database.db") as db:
+        cursor = db.cursor()
+        cursor.execute("pragma table_info(Client)")
+        results = cursor.fetchall()
+
+    for item in results:
+        print("| {0:<22} ".format(item[1]),end='')
+    print("|")
+    for item in results:
+        print("|------------------------",end='')
+    print("|")
+
+    with sqlite3.connect("Task_Manager_Database.db") as db:
+        cursor = db.cursor()
+        cursor.execute("""select a.ClientID,a.ClientName,a.ClientContactNo,b.CompanyName
+from Client a
+join Company b
+on a.CompanyID= b.CompanyID
+where a.{0} = ? order by a.{0} asc""".format(_filter),(_filter_value,))
+        results = cursor.fetchall()
+
+    for item in results:
+        for item2 in item:
+            try:
+                print("| {0:<22} ".format(item2),end='')
+            except:
+                print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
 
-    input("")
+def select_all_from_project_filter(_filter,_filter_value):
+    print("=====================================")
+    print()
+    
+    with sqlite3.connect("Task_Manager_Database.db") as db:
+        cursor = db.cursor()
+        cursor.execute("pragma table_info(Project)")
+        results = cursor.fetchall()
+
+    for item in results:
+        print("| {0:<22} ".format(item[1]),end='')
+    print("|")
+    for item in results:
+        print("|------------------------",end='')
+    print("|")
+
+    with sqlite3.connect("Task_Manager_Database.db") as db:
+        cursor = db.cursor()
+        cursor.execute("""select a.ProjectID,a.ProjectName,b.ClientName 
+from Project a
+join Client b
+on a.ClientID = b.ClientID
+where a.{0} = ? order by a.{0} asc""".format(_filter),(_filter_value,))
+        results = cursor.fetchall()
+
+    for item in results:
+        for item2 in item:
+            try:
+                print("| {0:<22} ".format(item2),end='')
+            except:
+                print("| {0:^22} ".format("NULL - please update"),end='')
+        print("|")
+
+def select_all_from_task_filter(_filter,_filter_value):
+    print("=====================================")
+    print()
+    
+    with sqlite3.connect("Task_Manager_Database.db") as db:
+        cursor = db.cursor()
+        cursor.execute("pragma table_info(Task)")
+        results = cursor.fetchall()
+
+    for item in results:
+        print("| {0:<22} ".format(item[1]),end='')
+    print("|")
+    for item in results:
+        print("|------------------------",end='')
+    print("|")
+
+    with sqlite3.connect("Task_Manager_Database.db") as db:
+        cursor = db.cursor()
+        cursor.execute("""select a.TaskID,a.TaskName,a.DueDate,a.Priority,b.TechnicalAreaName,d.ProjectName,c.TaskManagerName
+from Task a
+join TechnicalArea b 
+on a.TechnicalAreaID = b.TechnicalAreaID
+join TaskManager c
+on a.TaskManagerID = c.TaskManagerID
+join Project d
+on a.ProjectID = d.ProjectID
+where a.{0} = ? order by a.{0} asc""".format(_filter),(_filter_value,))
+        results = cursor.fetchall()
+
+    for item in results:
+        for item2 in item:
+            try:
+                print("| {0:<22} ".format(item2),end='')
+            except:
+                print("| {0:^22} ".format("NULL - please update"),end='')
+        print("|")
+
+def select_all_from_taskmanager_filter(_filter,_filter_value):
+    print("=====================================")
+    print()
+    
+    with sqlite3.connect("Task_Manager_Database.db") as db:
+        cursor = db.cursor()
+        cursor.execute("pragma table_info(TaskManager)")
+        results = cursor.fetchall()
+
+    for item in results:
+        print("| {0:<22} ".format(item[1]),end='')
+    print("|")
+    for item in results:
+        print("|------------------------",end='')
+    print("|")
+
+    with sqlite3.connect("Task_Manager_Database.db") as db:
+        cursor = db.cursor()
+        cursor.execute("""select * from TaskManager
+where a.{0} = ? order by a.{0} asc""".format(_filter),(_filter_value,))
+        results = cursor.fetchall()
+
+    for item in results:
+        for item2 in item:
+            try:
+                print("| {0:<22} ".format(item2),end='')
+            except:
+                print("| {0:^22} ".format("NULL - please update"),end='')
+        print("|")
+
+def select_all_from_technicalarea_filter(_filter,_filter_value):
+    print("=====================================")
+    print()
+    
+    with sqlite3.connect("Task_Manager_Database.db") as db:
+        cursor = db.cursor()
+        cursor.execute("pragma table_info(TechnicalArea)")
+        results = cursor.fetchall()
+
+    for item in results:
+        print("| {0:<22} ".format(item[1]),end='')
+    print("|")
+    for item in results:
+        print("|------------------------",end='')
+    print("|")
+
+    with sqlite3.connect("Task_Manager_Database.db") as db:
+        cursor = db.cursor()
+        cursor.execute("""select * from TechnicalArea
+where a.{0} = ? order by a.{0} asc""".format(_filter),(_filter_value,))
+        results = cursor.fetchall()
+
+    for item in results:
+        for item2 in item:
+            try:
+                print("| {0:<22} ".format(item2),end='')
+            except:
+                print("| {0:^22} ".format("NULL - please update"),end='')
+        print("|")
 
 ############################################################################################################################### INSERT TO TABLE
 
