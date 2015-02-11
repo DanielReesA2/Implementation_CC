@@ -199,42 +199,42 @@ def select_statement(_table):
             print("Choice not valid.")
     if user_input == 1:
         if _table == "Company":
-            select_all_from_company()
+            results = select_all_from_company()
             input("")
         elif _table == "Client":
-            select_all_from_client()
+            results = select_all_from_client()
             input("")
         elif _table == "Project":
-            select_all_from_project()
+            results = select_all_from_project()
             input("")
         elif _table == "Task":
-            select_all_from_task()
+            results = select_all_from_task()
             input("")
         elif _table == "TaskManager":
-            select_all_from_taskmanager()
+            results = select_all_from_taskmanager()
             input("")
         elif _table == "TechnicalArea":
-            select_all_from_technicalarea()
+            results = select_all_from_technicalarea()
             input("")
     elif user_input == 2:
         id_not_name,id_to_get = display_existing(_table)
         if _table == "Company":
-            select_one_from_company(id_not_name,id_to_get)
+            result = select_one_from_company(id_not_name,id_to_get)
             input("")
         elif _table == "Client":
-            select_one_from_client(id_not_name,id_to_get)
+            result = select_one_from_client(id_not_name,id_to_get)
             input("")
         elif _table == "Project":
-            select_one_from_project(id_not_name,id_to_get)
+            result = select_one_from_project(id_not_name,id_to_get)
             input("")
         elif _table == "Task":
-            select_one_from_task(id_not_name,id_to_get)
+            result = select_one_from_task(id_not_name,id_to_get)
             input("")
         elif _table == "TaskManager":
-            select_one_from_taskmanager(id_not_name,id_to_get)
+            result = select_one_from_taskmanager(id_not_name,id_to_get)
             input("")
         elif _table == "TechnicalArea":
-            select_one_from_technicalarea(id_not_name,id_to_get)
+            result = select_one_from_technicalarea(id_not_name,id_to_get)
             input("")
 
     elif user_input == 3:
@@ -269,6 +269,8 @@ def select_all_from_company():
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
 
+    return results
+
 def select_all_from_client():
     print("=====================================")
     print()
@@ -301,6 +303,8 @@ on a.CompanyID= b.CompanyID""")
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
 
+    return results
+
 def select_all_from_project():
     print("=====================================")
     print()
@@ -332,6 +336,8 @@ on a.ClientID = b.ClientID""")
             except:
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
+
+    return results
 
 def select_all_from_task():
     print("=====================================")
@@ -369,6 +375,8 @@ on a.ProjectID = d.ProjectID""")
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
 
+    return results
+
 def select_all_from_taskmanager():
     print("=====================================")
     print()
@@ -398,6 +406,8 @@ def select_all_from_taskmanager():
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
 
+    return results
+
 def select_all_from_technicalarea():
     print("=====================================")
     print()
@@ -426,6 +436,8 @@ def select_all_from_technicalarea():
             except:
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
+
+    return results
  
 def display_existing(_table):
     id_check = []
@@ -454,6 +466,7 @@ def display_existing(_table):
         except:
             print("Choice not valid.")
     return id_not_name,id_to_get
+
 
 def select_one_from_company(id_not_name,id_to_get):
     print("=====================================")
@@ -496,6 +509,8 @@ def select_one_from_company(id_not_name,id_to_get):
             except:
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
+
+    return result
 
 def select_one_from_client(id_not_name,id_to_get):
     print("=====================================")
@@ -547,6 +562,8 @@ where ClientName = ?""",(id_to_get,))
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
 
+    return result
+    
 def select_one_from_project(id_not_name,id_to_get):
     print("=====================================")
     print()
@@ -596,6 +613,8 @@ where ProjectName = ?""",(id_to_get,))
             except:
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
+
+    return result
 
 def select_one_from_task(id_not_name,id_to_get):
     print("=====================================")
@@ -655,6 +674,8 @@ where TaskName = ?""",(id_to_get,))
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
 
+    return result
+
 def select_one_from_taskmanager(id_not_name,id_to_get):
     print("=====================================")
     print()
@@ -697,6 +718,8 @@ def select_one_from_taskmanager(id_not_name,id_to_get):
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
 
+    return result
+
 def select_one_from_technicalarea(id_not_name,id_to_get):
     print("=====================================")
     print()
@@ -738,6 +761,8 @@ def select_one_from_technicalarea(id_not_name,id_to_get):
             except:
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
+
+    return result
 
 def select_with_filter_from_table(_table):
     with sqlite3.connect("Task_Manager_Database.db") as db:
@@ -798,22 +823,22 @@ def select_with_filter_from_table(_table):
     print()
 
     if _table == "Company":
-        select_all_from_company_filter(_filter,_filter_value)
+        results = select_all_from_company_filter(_filter,_filter_value)
         input("")
     elif _table == "Client":
-        select_all_from_client_filter(_filter,_filter_value)
+        results = select_all_from_client_filter(_filter,_filter_value)
         input("")
     elif _table == "Project":
-        select_all_from_project_filter(_filter,_filter_value)
+        results = select_all_from_project_filter(_filter,_filter_value)
         input("")
     elif _table == "Task":
-        select_all_from_task_filter(_filter,_filter_value)
+        results = select_all_from_task_filter(_filter,_filter_value)
         input("")
     elif _table == "TaskManager":
-        select_all_from_taskmanager_filter(_filter,_filter_value)
+        results = select_all_from_taskmanager_filter(_filter,_filter_value)
         input("")
     elif _table == "TechnicalArea":
-        select_all_from_technicalarea_filter(_filter,_filter_value)
+        results = select_all_from_technicalarea_filter(_filter,_filter_value)
         input("")
 
 def select_all_from_company_filter(_filter,_filter_value):
@@ -844,6 +869,8 @@ def select_all_from_company_filter(_filter,_filter_value):
             except:
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
+
+    return results
         
 def select_all_from_client_filter(_filter,_filter_value):
     print("=====================================")
@@ -878,6 +905,8 @@ where a.{0} = ? order by a.{0} asc""".format(_filter),(_filter_value,))
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
 
+    return results
+
 def select_all_from_project_filter(_filter,_filter_value):
     print("=====================================")
     print()
@@ -910,6 +939,8 @@ where a.{0} = ? order by a.{0} asc""".format(_filter),(_filter_value,))
             except:
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
+
+    return results
 
 def select_all_from_task_filter(_filter,_filter_value):
     print("=====================================")
@@ -948,6 +979,8 @@ where a.{0} = ? order by a.{0} asc""".format(_filter),(_filter_value,))
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
 
+    return results
+
 def select_all_from_taskmanager_filter(_filter,_filter_value):
     print("=====================================")
     print()
@@ -978,6 +1011,8 @@ where a.{0} = ? order by a.{0} asc""".format(_filter),(_filter_value,))
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
 
+    return results
+
 def select_all_from_technicalarea_filter(_filter,_filter_value):
     print("=====================================")
     print()
@@ -1007,6 +1042,8 @@ where a.{0} = ? order by a.{0} asc""".format(_filter),(_filter_value,))
             except:
                 print("| {0:^22} ".format("NULL - please update"),end='')
         print("|")
+
+    return results
 
 ############################################################################################################################### INSERT TO TABLE
 

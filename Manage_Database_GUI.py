@@ -1,6 +1,7 @@
 from Manage_Database import *
 import sqlite3
 import sys
+import time
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
@@ -71,6 +72,7 @@ class TaskManagerMainGUI(QMainWindow):
 
         #connections
         self.open_database.triggered.connect(self._open_database)
+        self.close_database.triggered.connect(self._close_database)
 
     def _open_database(self):
         file_name = QFileDialog.getOpenFileName()
@@ -80,6 +82,15 @@ class TaskManagerMainGUI(QMainWindow):
         self.database_path = file_name
         self.update_main_table()
 
+    def _close_database(self):
+        print("{0} Closed".format(self.database_path))
+        self.main_status_bar.showMessage("{0} Closed".format(self.database_path))
+        time.sleep(0.5)
+        self.main_status_bar.showMessage("Task Manager ver1.0")
+        self.database_opened = False
+        self.database_path = None
+        self.update_main_table()
+        
     def CreateMainWindow(self):
         #components
         self.main_tree_view = QTreeView()
@@ -113,7 +124,11 @@ class TaskManagerMainGUI(QMainWindow):
 
     def update_main_table(self):
         if self.database_opened:
+            print("Database Opened")
+            #display all tasks as default
+            results = select_all_from_task()
             
+                        
 
 ##            with sqlite3.connect("Task_Manager_Database.db") as db:
 ##                cursor = db.cursor()
