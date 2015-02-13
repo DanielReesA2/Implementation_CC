@@ -635,7 +635,7 @@ def select_one_from_task(id_not_name,id_to_get):
     if id_not_name:
         with sqlite3.connect("Task_Manager_Database.db") as db:
             cursor = db.cursor()
-            cursor.execute("""select a.TaskID,a.TaskName,a.DueDate,a.Priority,b.TechnicalAreaName,d.ProjectName,c.TaskManagerName
+            cursor.execute("""select a.TaskID,a.TaskName,a.DueDate,a.Priority,b.TechnicalAreaName,c.TaskManagerName,d.ProjectName
 from Task a
 join TechnicalArea b 
 on a.TechnicalAreaID = b.TechnicalAreaID
@@ -1321,6 +1321,78 @@ def update_data_for_database(_table):
             update_for_TechnicalArea(id_to_update,_table)
     else:
         update_one_for_Table(id_to_update,_table)
+
+def automatic_update_one_for_project(id_to_update,_value):
+    with sqlite3.connect("Task_Manager_Database.db") as db:
+        cursor = db.cursor()
+        cursor.execute("pragma table_info(Project)")
+        results = cursor.fetchall()
+
+    item = results[1]
+    _column = item[1]
+    values = (_value,id_to_update,)
+    with sqlite3.connect("Task_Manager_Database.db") as db:
+        cursor = db.cursor()
+        cursor.execute("PRAGMA foreign_keys = ON")
+        sql = ("update Project set {0}=? where ProjectID = ?".format(_column))
+        cursor.execute(sql,values)
+        db.commit()
+    
+    print("Database updated successfully")
+
+def automatic_update_one_for_table(id_to_update,_column,value,_table):
+    
+    values = (value,id_to_update,)
+    with sqlite3.connect("Task_Manager_Database.db") as db:
+        cursor = db.cursor()
+        cursor.execute("PRAGMA foreign_keys = ON")
+        sql = ("update {1} set {0}=? where {1}ID = ?".format(_column,_table))
+        cursor.execute(sql,values)
+        db.commit()
+    print("Database updated successfully")
+
+def automatic_update_one_for_table_id(id_not_name,id_to_update,_column,foreign_column,value,_table,foreign_table):
+
+    if id_not_name:
+        values = (value,id_to_update,)
+        with sqlite3.connect("Task_Manager_Database.db") as db:
+            cursor = db.cursor()
+            cursor.execute("PRAGMA foreign_keys = ON")
+            sql = ("update {1} set {0}=? where {1}ID = ?".format(_column,_table))
+            cursor.execute(sql,values)
+            db.commit()
+        print("Database updated successfully")
+
+    elif not id_not_name: 
+        if foreign_table == "Company":
+            results = select_all_from_company()
+        elif foreign_table == "Client":
+            results = select_all_from_client()
+        elif foreign_table == "Project":
+            results = select_all_from_project()
+        elif foreign_table == "Task":
+            results = select_all_from_task()
+        elif foreign_table == "TaskManager":
+            results = select_all_from_taskmanager()
+        elif foreign_table == "TechnicalArea":
+            results = select_all_from_technicalarea()
+        id_match = []
+        for item in results:
+            id_match.append(item[1])
+        index = 0
+        for item in id_match:
+            if value == item:
+                value = index + 1
+            index = index + 1
+
+        values = (value,id_to_update,)
+        with sqlite3.connect("Task_Manager_Database.db") as db:
+            cursor = db.cursor()
+            cursor.execute("PRAGMA foreign_keys = ON")
+            sql = ("update {1} set {0}=? where {1}ID = ?".format(_column,_table))
+            cursor.execute(sql,values)
+            db.commit()
+        print("Database updated successfully")
 
 def update_one_for_Table(id_to_update,_table):
     print("=====================================")
