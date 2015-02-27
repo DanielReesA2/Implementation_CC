@@ -110,11 +110,12 @@ def display_menu():
     print("""=====================================
 Database Manager 
 
-1. select from database
-2. insert to database
-3. delete from database
-4. update data for database
-5. exit program
+1. default view
+2. select from database
+3. insert to database
+4. delete from database
+5. update data for database
+6. exit program
 
 =====================================""")
 
@@ -123,7 +124,7 @@ def get_input():
     while not valid:
         try:
             user_input = int(input(""))
-            if user_input in [1,2,3,4,5]:
+            if user_input in [1,2,3,4,5,6]:
                 valid = True
             else:
                 print("Choice not valid.")
@@ -1126,7 +1127,7 @@ def insert_to_Project(item_value_list,_table):
         print("Inserted values into table '{0}'.".format(_table))
         input("")
     except:
-        print("FERERENTIAL ERROR - Foreign Keys not valid, references non existing record. ")
+        print("REFERENTIAL ERROR - Foreign Keys not valid, references non existing record. ")
         input("")
     
 def insert_to_Task(item_value_list,_table):
@@ -1701,6 +1702,15 @@ def update_for_TechnicalArea(id_to_update,_table):
         print("REFERENTIAL ERROR - Foreign Keys not valid, references non existing record. ")
         input("")
 
+############################################################################################################################### DEFAULT VIEW
+
+def default_view(P_ID):
+    if P_ID == -1:
+        results = select_all_from_task()
+    else:
+        results = select_all_from_task_filter("ProjectID",P_ID)
+    return results
+
 ############################################################################################################################### MAIN PROGRAM
 
 if __name__ == "__main__":
@@ -1710,20 +1720,32 @@ if __name__ == "__main__":
         display_menu()
         user_input = get_input()
         if user_input == 1:
-            _table = select_table()
-            if _table != 7:
-                select_statement(_table)
+            results = select_all_from_project()
+            _all = ['-1','All Projects','All Clients']
+            try:
+                for item in _all:
+                    print("| {0:<22} ".format(item),end='')
+                print("|")
+                P_ID = int(input("ID: "))
+                default_view(P_ID)
+                input("")
+            except:
+                print("Choice not valid")
         elif user_input == 2:
             _table = select_table()
             if _table != 7:
-                get_table_values(_table)
+                select_statement(_table)
         elif user_input == 3:
             _table = select_table()
             if _table != 7:
-                delete_statement(_table)
+                get_table_values(_table)
         elif user_input == 4:
             _table = select_table()
             if _table != 7:
-                update_data_for_database(_table)
+                delete_statement(_table)
         elif user_input == 5:
+            _table = select_table()
+            if _table != 7:
+                update_data_for_database(_table)
+        elif user_input == 6:
             finish_program = True

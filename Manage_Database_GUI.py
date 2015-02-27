@@ -40,11 +40,11 @@ class TaskManagerMainGUI(QMainWindow):
         self.main_tool_bar_1.addAction(self.insert_data)
         self.main_tool_bar_1.addAction(self.delete_data)
 
-        #add actions to menubarss
+        #add actions to menubars
         self.database_menu = self.main_menu_bar.addMenu("Database")
+        self.database_menu.addAction(self.add_project)
         self.database_menu.addAction(self.insert_data)
-        self.database_menu.addAction(self.delete_data)
-        
+        self.database_menu.addAction(self.delete_data) 
         
         #add message to statusbar
         self.main_status_bar.showMessage("Task Manager ver1.0")
@@ -89,6 +89,9 @@ class TaskManagerMainGUI(QMainWindow):
         #add layout to widget
         self.main_widget.setLayout(self.main_layout)
 
+    def test(self):
+        print("test")
+
     def update_components(self):
         self.update_main_list()
         self.update_main_table()
@@ -113,9 +116,9 @@ class TaskManagerMainGUI(QMainWindow):
             results = cursor.fetchall()
         headers = []
         for item in results:
-            headers.append(item[1])
-                
-        results = select_all_from_task()
+            headers.append(item[1])        
+        P_ID = -1
+        results = default_view(P_ID)
         columns = len(results[0])
         rows = 0
         for item in results:
@@ -131,6 +134,8 @@ class TaskManagerMainGUI(QMainWindow):
 
         table_model = main_table_view_model(table_data_lists,headers,rows,columns,_table)
         self.main_table_view.setModel(table_model)
+        self.main_table_view.resizeColumnsToContents()
+        #self.main_table_view.sortByColumn("Priority")
 
         
 
@@ -270,7 +275,6 @@ class main_table_view_model(QAbstractTableModel):
                 row = row + 1
                 column = self._Headers[column]
                 automatic_update_one_for_table(row,column,value,_table)
-                self._Records[row][column] = value
                 window.main_status_bar.showMessage("Database updated successfully")
                 window.update_components()
                 self.dataChanged.emit(index,index)
@@ -287,6 +291,9 @@ class main_list_view_model(QAbstractListModel):
     def __init__(self,projects):
         super().__init__()
         self._Projects = projects
+        self._Selected = 'All'
+
+        self._Projects.clicked.connect(self.onItemSelect)
 
     def rowCount(self,parent):
         return len(self._Projects)
@@ -300,7 +307,7 @@ class main_list_view_model(QAbstractListModel):
     def flags(self,index):
         return Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable
 
-    def setData(self,index,value,role = Qt.EditRole):
+    def setData(self,index,value,role):
         if role == Qt.EditRole:
             row = index.row()
             if self._Projects[row] == "All":
@@ -328,8 +335,14 @@ class main_list_view_model(QAbstractListModel):
                 error_message_dialog.showMessage("Value must be less than 24 characters.")
                 error_message_dialog.exec_()
                 return False
+            
+        def onItemSelect(self):
+            test = self.main_list_view.selectedIndexes()
+            print(test)
         
 if __name__ == "__main__":
+    
+    #initialise_database()
     application = QApplication(sys.argv)
     window = TaskManagerMainGUI()
     window.show()
